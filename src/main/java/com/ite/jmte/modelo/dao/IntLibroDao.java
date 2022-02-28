@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.ite.jmte.modelo.beans.Libro;
+import com.ite.jmte.modelo.beans.Tema;
 
 public interface IntLibroDao {
 	
@@ -18,6 +19,14 @@ public interface IntLibroDao {
 	List<Libro> listaLibrosPorTema(String descTema);
 	
 	List<Libro> listaLibrosPorCadena(String busqueda);
+	
+	int addLibroCarrito(Libro libro, List<Libro> lista);
+	
+	int altaTema(Tema tema);
+	
+	int altaLibro(Libro libro);
+	
+	
 	
 
 }

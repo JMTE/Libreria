@@ -1,5 +1,6 @@
 package com.ite.jmte.modelo.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -27,15 +28,23 @@ public class HomeController {
 		@Autowired
 		IntUsuarioDao usuDao;
 		
+		
+	
+		
+		
 		@GetMapping("/")
 		
-		public String listaLibrosNovedades(Authentication aut, Model model, HttpSession misesion) {
+		
+		public String listaLibrosNovedades(Authentication aut, Model model, HttpSession misesion, HttpSession listaSesion) {
 			System.out.println("usuario : " + aut.getName());
 			Usuario usuario = usuDao.findUsuarioByUsername(aut.getName());
+			
+			List<Libro>listaCarrito=new ArrayList<Libro>();
 			
 			String rol =null;
 			
 				misesion.setAttribute("usuario", usuario);
+				listaSesion.setAttribute("listaCarrito", listaCarrito);
 				
 			
 			for (GrantedAuthority ele: aut.getAuthorities()) {
@@ -51,11 +60,12 @@ public class HomeController {
 				return "redirect:cliente/";	
 				
 			}else if (rol.equalsIgnoreCase("ROL_ADMON")) {
+			
 				return "redirect:admon/";
 				
 			}else {
 				model.addAttribute("listaLibrosNovedades",libDao.listaLibrosNovedades() );
-				return "index";
+				return "inicio";
 			}
 			
 			

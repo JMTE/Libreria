@@ -15,7 +15,7 @@ public class UsuarioDaoImplMy8Sb implements IntUsuarioDao{
 	@Override
 	public List<Usuario> findAll() {
 		// TODO Auto-generated method stub
-		return null;
+		return usuRepo.findAll();
 	}
 
 	@Override
@@ -29,6 +29,12 @@ public class UsuarioDaoImplMy8Sb implements IntUsuarioDao{
 	public int altaUsuario(Usuario usuario) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public List<Usuario> findUsuariosClientes() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

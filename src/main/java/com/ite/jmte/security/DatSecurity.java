@@ -22,16 +22,19 @@ public class DatSecurity extends WebSecurityConfigurerAdapter {
     private DataSource dataSource; 
 	
 	
-@Override 
-protected void configure(AuthenticationManagerBuilder auth) throws 
-Exception { 
-auth.jdbcAuthentication().dataSource(dataSource).usersByUsernameQuery ("select username,password,'true' as enabled from Usuarios where username=?") 
-.authoritiesByUsernameQuery("select u.username, p.descripcion from Usuario_Perfiles up" + 
-" inner join Usuarios u on u.username = up.username " + " inner join Perfiles p on p.id_perfil = up.id_Perfil where u.username=?"); 
-} 
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
+		auth.jdbcAuthentication().dataSource(dataSource)
+		.usersByUsernameQuery("select username, password, enabled from Usuarios where username=?")
+		.authoritiesByUsernameQuery("select u.username, p.descripcion from Usuario_Perfiles up " +  "inner join Usuarios u on u.username = up.username " +
+		"inner join Perfiles p on p.id_perfil = up.id_Perfil " +  "where u.username = ?");
+
+	}
 
 
-/*De donde sacas el usuario 
+
+/*De donde sacas el usuari
  * select username, password, de usuarios where username 
  * es igual al interrogante
  * 
@@ -83,14 +86,14 @@ protected void configure(HttpSecurity http) throws Exception {
 		// Las vistas públicas no requieren autenticaciÃ³n
 		.antMatchers("/",
 		"/login",
-		"/search").permitAll()
+		"/search","/registro").permitAll()
 		
 		// Asignar permisos a URLs por ROLES
 		.antMatchers("/app/producto/**").hasAnyAuthority("ROL_CLIENTE","ROL_ADMON")
 		.antMatchers("/app/usuarios/**").hasAnyAuthority("ROL_CLIENTE","ROL_ADMON")
-		.antMatchers("/admon/perfiles/**").hasAnyAuthority("ROL_ADMON")
+		.antMatchers("/admon/**").hasAnyAuthority("ROL_ADMON")
 		.antMatchers("/admon/tipos/**").hasAnyAuthority("ROL_ADMON")
-		.antMatchers("/cliente/verDetalle/**").hasAnyAuthority("ROL_CLIENTE")
+		.antMatchers("/cliente/**").hasAnyAuthority("ROL_CLIENTE")
 		
 		// Todas las demÃ¡s URLs de la AplicaciÃ³n requieren autenticaciÃ³n
 		.anyRequest().authenticated()

@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Detalle Cuenta</title>
+<title>Inicio</title>
 <!-- CSS only -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
@@ -18,34 +18,21 @@
 <body>
 
 <div class="container">
-<header>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand  " href="#"><i class="bi bi-bank"> ${libro.titulo }</i></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
-       <sec:authorize access="hasAuthority('ROL_CLIENTE')">
-        <li class="nav-item">
-          <a class="nav-link active btn btn-success" aria-current="page" href="/cliente/addCarrito/${libro.isbn }"><i class="bi bi-arrow-down-up"> Añadir al Carrito</i></a>
-        </li>
-        </sec:authorize>
-         <sec:authorize access="hasAuthority('ROL_CLIENTE')">
-        <li class="nav-item">
-          <a class="nav-link btn btn-success" href=""><i class="bi bi-plus-square"> Volver</i></a>
-        </li>
-        </sec:authorize>
-       
-        
-      </ul>
-    </div>
-  </div>
-</nav>
-</header>
 
+<form action="/admon/altaTema" method="post">
+  <div class="form-group">
+    <label for="exampleInputEmail1">Descripcion Tema</label>
+    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="descTema" name="descTema">
+   
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Abreviatura</label>
+    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="abreviatura" name="abreviatura">
+  </div>
+  
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</div>
 
 </body>
-
 </html>

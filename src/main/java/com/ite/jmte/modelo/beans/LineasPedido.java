@@ -35,8 +35,8 @@ public class LineasPedido implements Serializable {
 	@JoinColumn(name="ISBN")
 	private Libro libro;
 
-	//uni-directional many-to-one association to Pedido
-	@ManyToOne(cascade={CascadeType.PERSIST})
+	//bi-directional many-to-one association to Pedido
+	@ManyToOne
 	@JoinColumn(name="ID_PEDIDO")
 	private Pedido pedido;
 

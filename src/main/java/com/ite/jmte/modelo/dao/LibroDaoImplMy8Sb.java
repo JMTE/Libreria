@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ite.jmte.modelo.beans.Libro;
+import com.ite.jmte.modelo.beans.Tema;
 import com.ite.jmte.modelo.repository.IntLibroRepo;
+import com.ite.jmte.modelo.repository.IntTemaRepo;
 
 @Service
 public class LibroDaoImplMy8Sb implements IntLibroDao {
@@ -16,6 +18,9 @@ public class LibroDaoImplMy8Sb implements IntLibroDao {
 	
 	@Autowired
 	private IntLibroRepo libRepo;
+	
+	@Autowired
+	private IntTemaRepo temRepo;
 	
 	@Override
 	public List<Libro> findAll() {
@@ -63,6 +68,52 @@ public class LibroDaoImplMy8Sb implements IntLibroDao {
 		List<Libro> listaPorTitulo=new ArrayList<Libro>();
 		listaPorTitulo=libRepo.findLibrosByTitulo(busqueda);
 		return listaPorTitulo;
+	}
+
+	@Override
+	public int addLibroCarrito(Libro libro, List<Libro> lista) {
+		// TODO Auto-generated method stub
+		
+		if (lista.contains(libro)) {
+			System.out.println("Lo contiene");
+			return lista != null?1:0;
+			
+		}else {
+			lista.add(libro);
+			return lista !=null?1:0;
+		}
+		
+		
+	}
+
+	@Override
+	public int altaTema(Tema tema) {
+		// TODO Auto-generated method stub
+		int filas=0;
+		
+		try {
+			temRepo.save(tema);
+			filas=1;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return filas;
+	}
+
+	@Override
+	public int altaLibro(Libro libro) {
+		// TODO Auto-generated method stub
+				int filas=0;
+				
+				try {
+					libRepo.save(libro);
+					filas=1;
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				
+				return filas;
 	}
 
 }

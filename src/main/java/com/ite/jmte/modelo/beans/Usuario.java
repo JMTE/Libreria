@@ -25,6 +25,8 @@ public class Usuario implements Serializable {
 
 	private String email;
 
+	private int enabled;
+
 	@Temporal(TemporalType.DATE)
 	@Column(name="FECHA_ALTA")
 	private Date fechaAlta;
@@ -81,6 +83,14 @@ public class Usuario implements Serializable {
 		this.email = email;
 	}
 
+	public int getEnabled() {
+		return this.enabled;
+	}
+
+	public void setEnabled(int enabled) {
+		this.enabled = enabled;
+	}
+
 	public Date getFechaAlta() {
 		return this.fechaAlta;
 	}
@@ -112,32 +122,5 @@ public class Usuario implements Serializable {
 	public void setPerfiles(List<Perfile> perfiles) {
 		this.perfiles = perfiles;
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((username == null) ? 0 : username.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Usuario other = (Usuario) obj;
-		if (username == null) {
-			if (other.username != null)
-				return false;
-		} else if (!username.equals(other.username))
-			return false;
-		return true;
-	}
-	
-	
 
 }

@@ -3,6 +3,7 @@ package com.ite.jmte.modelo.beans;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -16,6 +17,7 @@ public class Pedido implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID_PEDIDO")
 	private int idPedido;
 
@@ -27,6 +29,10 @@ public class Pedido implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name="FECHA_ALTA")
 	private Date fechaAlta;
+
+	//bi-directional many-to-one association to LineasPedido
+	@OneToMany(mappedBy="pedido", cascade = {CascadeType.PERSIST })
+	private List<LineasPedido> lineasPedidos;
 
 	//uni-directional many-to-one association to Usuario
 	@ManyToOne
@@ -66,6 +72,28 @@ public class Pedido implements Serializable {
 
 	public void setFechaAlta(Date fechaAlta) {
 		this.fechaAlta = fechaAlta;
+	}
+
+	public List<LineasPedido> getLineasPedidos() {
+		return this.lineasPedidos;
+	}
+
+	public void setLineasPedidos(List<LineasPedido> lineasPedidos) {
+		this.lineasPedidos = lineasPedidos;
+	}
+
+	public LineasPedido addLineasPedido(LineasPedido lineasPedido) {
+		getLineasPedidos().add(lineasPedido);
+		lineasPedido.setPedido(this);
+
+		return lineasPedido;
+	}
+
+	public LineasPedido removeLineasPedido(LineasPedido lineasPedido) {
+		getLineasPedidos().remove(lineasPedido);
+		lineasPedido.setPedido(null);
+
+		return lineasPedido;
 	}
 
 	public Usuario getUsuario() {

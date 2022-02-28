@@ -12,6 +12,7 @@ public interface IntUsuarioDao {
 	
 	int altaUsuario(Usuario usuario);
 	
+	List<Usuario>findUsuariosClientes();
 	
 	
 }

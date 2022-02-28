@@ -28,22 +28,22 @@
       <ul class="navbar-nav">
        <sec:authorize access="hasAuthority('ROL_ADMON')">
         <li class="nav-item">
-          <a class="nav-link active " aria-current="page" href="/cajero/verMovimientos"><i class="bi bi-arrow-down-up"> Usuarios</i></a>
+          <a class="nav-link active " aria-current="page" href="/admon/verUsuarios"><i class="bi bi-arrow-down-up"> Usuarios</i></a>
         </li>
         </sec:authorize>
          <sec:authorize access="hasAuthority('ROL_ADMON')">
         <li class="nav-item">
-          <a class="nav-link" href="/cajero/ingresar"><i class="bi bi-plus-square"> Perfiles</i></a>
+          <a class="nav-link" href="/admon/verPerfiles"><i class="bi bi-plus-square"> Perfiles</i></a>
         </li>
         </sec:authorize>
         <sec:authorize access="hasAuthority('ROL_ADMON')">
         <li class="nav-item">
-          <a class="nav-link" href="/cajero/extraer"><i class="bi bi-dash-square"> Clientes</i></a>
+          <a class="nav-link" href="/admon/verClientes"><i class="bi bi-dash-square"> Clientes</i></a>
         </li>
         </sec:authorize>
          <sec:authorize access="hasAuthority('ROL_ADMON')">
          <li class="nav-item">
-          <a class="nav-link" href="/cajero/transferencia"><i class="bi bi-arrow-left-right"> Temas</i></a>
+          <a class="nav-link" href="/admon/verTemas"><i class="bi bi-arrow-left-right"> Temas</i></a>
         </li>
         </sec:authorize>
         <sec:authorize access="hasAnyAuthority('ROL_CLIENTE','ROL_ADMON')">
@@ -63,7 +63,7 @@
         </sec:authorize>
          <sec:authorize access="hasAuthority('ROL_CLIENTE')">
         <li class="nav-item" >
-          <a class="nav-link" href="/cajero/verDatosCuenta"><i class="bi bi-person-fill">Ver Carrito </i></a>
+          <a class="nav-link" href="/cliente/verCarrito"><i class="bi bi-person-fill">Ver Carrito </i></a>
         </li>
         </sec:authorize>
         <sec:authorize access="!isAuthenticated()">
@@ -87,9 +87,14 @@
 <div class="imagenhome">
 <br>
 <h4> <i class="bi bi-person-check"> Usuario: ${usuario.username }</i></h4>
-<h3> <i class="bi bi-list-task"> ${mensajeMovimientos }</i></h3>
+
 <sec:authorize access="hasAuthority('ROL_ADMON')">
-<a class="btn btn-success " href="/altaLibro">Nuevo Libro</a>
+<a class="btn btn-success " href="/admon/altaLibro">Nuevo Libro</a>
+<a class="btn btn-success " href="/admon/altaTema">Nuevo Tema</a>
+ <form class="d-flex" action="/admon/verPedidos" method="post">
+      <input class="form-control" type="date"   name="fechaAlta">
+      <button class="btn btn-outline-success" type="submit">Ver Pedidos</button>
+ </form>
 </sec:authorize>
 
 <table class="table">
@@ -122,7 +127,7 @@
 		<td><a class="btn btn-success " href="/altaLibro">Ver Detalle</a></td>
     </c:when>
      <c:when test="${loggedIn2}">
-       <td><a class="btn btn-success " href="/altaLibro">Añadir Carrito</a></td>
+       <td><a class="btn btn-success " href="/cliente/addCarrito/${ele.isbn }">Añadir Carrito</a></td>
        <td><a class="btn btn-success " href="/cliente/verDetalle/${ele.isbn}">Ver Detalle</a></td>
    	</c:when>
     <c:otherwise>
