@@ -20,7 +20,7 @@
 <header>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand  " href="/index"><i class="bi bi-bank"> Libreria</i></a>
+    <a class="navbar-brand  " href="#"><i class="bi bi-shop"> Libreria</i></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -28,52 +28,57 @@
       <ul class="navbar-nav">
        <sec:authorize access="hasAuthority('ROL_ADMON')">
         <li class="nav-item">
-          <a class="nav-link active " aria-current="page" href="/admon/verUsuarios"><i class="bi bi-arrow-down-up"> Usuarios</i></a>
+          <a class="nav-link active " aria-current="page" href="/admon/verUsuarios"><i class="bi bi-people-fill"> Usuarios</i></a>
         </li>
         </sec:authorize>
          <sec:authorize access="hasAuthority('ROL_ADMON')">
         <li class="nav-item">
-          <a class="nav-link" href="/admon/verPerfiles"><i class="bi bi-plus-square"> Perfiles</i></a>
+          <a class="nav-link" href="/admon/verPerfiles"><i class="bi bi-list-check"> Perfiles</i></a>
         </li>
         </sec:authorize>
         <sec:authorize access="hasAuthority('ROL_ADMON')">
         <li class="nav-item">
-          <a class="nav-link" href="/admon/verClientes"><i class="bi bi-dash-square"> Clientes</i></a>
+          <a class="nav-link" href="/admon/verClientes"><i class="bi bi-bag"> Clientes</i></a>
         </li>
         </sec:authorize>
          <sec:authorize access="hasAuthority('ROL_ADMON')">
          <li class="nav-item">
-          <a class="nav-link" href="/admon/verTemas"><i class="bi bi-arrow-left-right"> Temas</i></a>
+          <a class="nav-link" href="/admon/verTemas"><i class="bi bi-book"> Temas</i></a>
         </li>
         </sec:authorize>
         <sec:authorize access="hasAnyAuthority('ROL_CLIENTE','ROL_ADMON')">
-        <form class="d-flex" action="/cliente/tema" method="post">
+        <form class="d-flex" action="/tema" method="post">
       <input class="form-control me-2" type="search" placeholder="Buscar por tema" aria-label="Search" name="descTema">
       <button class="btn btn-outline-success" type="submit">Search</button>
       	</form>
-      	 <form class="d-flex" action="/cliente/buscar" method="post">
+      	 <form class="d-flex" action="/buscar" method="post">
       <input class="form-control me-2" type="search" placeholder="Buscar por titulo" aria-label="Search" name="busqueda">
       <button class="btn btn-outline-success" type="submit">Search</button>
       	</form>
         </sec:authorize>
          <sec:authorize access="hasAuthority('ROL_CLIENTE')">
          <li class="nav-item" >
-          <a class="nav-link" href="/cajero/verDatosCuenta"><i class="bi bi-person-fill">Mis datos </i></a>
+          <a class="nav-link" href="/cliente/verDatos"><i class="bi bi-person-fill">Mis datos </i></a>
         </li>
         </sec:authorize>
          <sec:authorize access="hasAuthority('ROL_CLIENTE')">
         <li class="nav-item" >
-          <a class="nav-link" href="/cliente/verCarrito"><i class="bi bi-person-fill">Ver Carrito </i></a>
+          <a class="nav-link" href="/cliente/verCarrito"><i class="bi bi-cart"> Ver Carrito </i></a>
         </li>
         </sec:authorize>
         <sec:authorize access="!isAuthenticated()">
         <li class="nav-item" >
-          <a class="nav-link" href="/cajero/verDatosCuenta"><i class="bi bi-person-fill">Inicio y Registro </i></a>
+          <a class="nav-link" href="/index"><i class="bi bi-box-arrow-in-right"> Login</i></a>
+        </li>
+        </sec:authorize>
+         <sec:authorize access="!isAuthenticated()">
+        <li class="nav-item" >
+          <a class="nav-link" href="/registro"><i class="bi bi-person-plus "> Registro</i></a>
         </li>
         </sec:authorize>
         <sec:authorize access="isAuthenticated()">
         <li class="nav-item" >
-          <a class="nav-link" href="/logout"><i class="bi bi-box-arrow-right"> Cerrar Sesión</i></a>
+          <a class="nav-link" href="/salir"><i class="bi bi-box-arrow-right"> Cerrar Sesión</i></a>
         </li>
         </sec:authorize>
         
@@ -82,20 +87,23 @@
   </div>
 </nav>
 </header>
-
+<sec:authorize access="hasAnyAuthority('ROL_CLIENTE','ROL_ADMON')">
 <div class="cuerpo bg-success p-2 text-white bg-opacity-25">
 <div class="imagenhome">
 <br>
 <h4> <i class="bi bi-person-check"> Usuario: ${usuario.username }</i></h4>
-
+<br>
 <sec:authorize access="hasAuthority('ROL_ADMON')">
-<a class="btn btn-success " href="/admon/altaLibro">Nuevo Libro</a>
-<a class="btn btn-success " href="/admon/altaTema">Nuevo Tema</a>
+<a class="btn btn-success " href="/admon/altaLibro"><i class="bi bi-book"> Nuevo Libro</i></a>
+<a class="btn btn-success " href="/admon/altaTema"><i class="bi bi-journal-plus"> Nuevo Tema</i></a>
+<br><br>
  <form class="d-flex" action="/admon/verPedidos" method="post">
       <input class="form-control" type="date"   name="fechaAlta">
       <button class="btn btn-outline-success" type="submit">Ver Pedidos</button>
  </form>
 </sec:authorize>
+
+<br>
 
 <table class="table">
   <thead>
@@ -109,12 +117,13 @@
   </thead>
   
   <tbody>
+  
   <c:forEach var="ele" items="${listaLibros}">
   <tr>
+   
       <th scope="row"><i class="bi bi-forward-fill"> ${ele.titulo }</i></th>
-     <td>${ele.autor } <i class="bi bi-currency-euro"></i></td>
+     <td>${ele.autor } </i></td>
       <td>${ele.precioUnitario } <i class="bi bi-currency-euro"></i></td>
-      
      
 	  
 	  <sec:authorize var="loggedIn" access="hasAuthority('ROL_ADMON')" />
@@ -122,13 +131,13 @@
 	   
 	<c:choose>
     <c:when test="${loggedIn}">
-        <td><a class="btn btn-success " href="/altaLibro">Editar</a></td>
-		<td><a class="btn btn-success " href="/altaLibro">Eliminar</a></td>
-		<td><a class="btn btn-success " href="/altaLibro">Ver Detalle</a></td>
+        <td><a class="btn btn-success " href="/admon/modificarLibro/${ele.isbn }">Editar <i class="bi bi-pencil"></i></a></td>
+		<td><a class="btn btn-success " href="#">Eliminar <i class="bi bi-trash"></i></a></td>
+		<td><a class="btn btn-success " href="/admon/verDetalle/${ele.isbn }">Ver Detalle <i class="bi bi-search"></i></a></td>
     </c:when>
      <c:when test="${loggedIn2}">
-       <td><a class="btn btn-success " href="/cliente/addCarrito/${ele.isbn }">Añadir Carrito</a></td>
-       <td><a class="btn btn-success " href="/cliente/verDetalle/${ele.isbn}">Ver Detalle</a></td>
+       <td><a class="btn btn-success " href="/cliente/addCarrito/${ele.isbn }"> Añadir Carrito  <i class="bi bi-cart-plus"></i> </a></td>
+       <td><a class="btn btn-success " href="/cliente/verDetalle/${ele.isbn}">Ver Detalle <i class="bi bi-search"></i></a></td>
    	</c:when>
     <c:otherwise>
        
@@ -145,7 +154,7 @@
 
 </div>
 </div>
-
+</sec:authorize>
 </div>
 
 

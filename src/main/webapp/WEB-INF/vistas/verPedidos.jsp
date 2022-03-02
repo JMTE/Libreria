@@ -43,7 +43,7 @@
         </sec:authorize>
         <sec:authorize access="isAuthenticated()">
         <li class="nav-item" >
-          <a class="nav-link" href="/logout"><i class="bi bi-box-arrow-right"> Cerrar Sesión</i></a>
+          <a class="nav-link" href="/salir"><i class="bi bi-box-arrow-right"> Cerrar Sesión</i></a>
         </li>
         </sec:authorize>
         
@@ -53,6 +53,8 @@
   </div>
 </nav>
 </header>
+
+<div class="cuerpo bg-success p-2 text-white bg-opacity-25">
 <table class="table">
   <thead>
     <tr>
@@ -71,11 +73,11 @@
   <c:forEach var="ele" items="${listaPedidos}">
   <tr>
       <th scope="row"><i class="bi bi-forward-fill"> ${ele.idPedido }</i></th>
-     <td>${ele.direccionEntrega } <i class="bi bi-currency-euro"></i></td>
-      <td>${ele.estado } <i class="bi bi-currency-euro"></i></td>
-      <td>${ele.fechaAlta } <i class="bi bi-currency-euro"></i></td>
-      <td>${ele.usuario.username } <i class="bi bi-currency-euro"></i></td>
-      <td><a class="btn btn-success " href="/admon/detallePedido/${ele.idPedido }">Detalle</a></td>
+     <td>${ele.direccionEntrega } </td>
+      <td>${ele.estado } </td>
+      <td>${ele.fechaAlta } </td>
+      <td>${ele.usuario.username } </td>
+      <td><a class="btn btn-success " href="/admon/detallePedido/${ele.idPedido }">Detalle <i class="bi bi-search"></i></a></td>
       
      
 	  
@@ -91,6 +93,8 @@
    
   </tbody>
 </table>
+</div>
+
 </div>
 </body>
 </html>

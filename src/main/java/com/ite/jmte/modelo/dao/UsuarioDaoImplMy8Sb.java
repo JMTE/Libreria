@@ -12,29 +12,40 @@ public class UsuarioDaoImplMy8Sb implements IntUsuarioDao{
 
 	@Autowired
 	private IntUsuariosRepo usuRepo;
+	
+	
 	@Override
 	public List<Usuario> findAll() {
-		// TODO Auto-generated method stub
+		// Todos los usuarios mediante el metodo que nos proporciona JPA
 		return usuRepo.findAll();
 	}
 
 	@Override
 	public Usuario findUsuarioByUsername(String username) {
-		// TODO Auto-generated method stub
+		// Buscar un usuario por id mediante el metodo que nos proporciona JPA
 		
 		return usuRepo.findById(username).orElse(null);
 	}
 
 	@Override
 	public int altaUsuario(Usuario usuario) {
-		// TODO Auto-generated method stub
-		return 0;
+		// Dar de alta un usuario
+		
+		int filas=0;
+		
+		try {
+			usuRepo.save(usuario);
+			filas=1;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return filas;
 	}
 
 	@Override
 	public List<Usuario> findUsuariosClientes() {
-		// TODO Auto-generated method stub
-		return null;
+		// Buscar la lista de usuarios que sean clientes mediante una query propia implementada en el repository
+		return usuRepo.findUsuariosClientes();
 	}
 
 }

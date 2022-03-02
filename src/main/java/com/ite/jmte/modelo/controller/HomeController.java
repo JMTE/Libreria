@@ -1,20 +1,27 @@
 package com.ite.jmte.modelo.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ite.jmte.modelo.beans.Libro;
+import com.ite.jmte.modelo.beans.Perfile;
 import com.ite.jmte.modelo.beans.Usuario;
 import com.ite.jmte.modelo.dao.IntLibroDao;
 import com.ite.jmte.modelo.dao.IntUsuarioDao;
@@ -29,103 +36,156 @@ public class HomeController {
 		IntUsuarioDao usuDao;
 		
 		
+		//Creamos un objeto de PasswordEncoder definido en la clase de DatSecurity para encriptar las contraseñas cuando registramos un usuario
+		@Autowired
+		private PasswordEncoder pwenco;
+		
+		
+		//Esto lo utilizamos para encriptar las contraseñas que teniamos sin encriptar en la BBDD
+		@GetMapping("/pwd")
+		@ResponseBody
+		public String generarEncriptado() {
+		String password = "perico";
+		String encriptado = pwenco.encode(password);
+		return encriptado;
+		}
 	
 		
 		
-		@GetMapping("/")
+		
+		@GetMapping("/index")
 		
 		
 		public String listaLibrosNovedades(Authentication aut, Model model, HttpSession misesion, HttpSession listaSesion) {
-			System.out.println("usuario : " + aut.getName());
+			
+			//Introducimos el usuario autentificado en un objeto de la clase usuario que lo buscamos con nuestro metodo de buscar usuario por username
 			Usuario usuario = usuDao.findUsuarioByUsername(aut.getName());
 			
+			//Creamos una listaCarrito que la introduciremos en sesion.
 			List<Libro>listaCarrito=new ArrayList<Libro>();
 			
+			//Creamos un string rol para definir en que direccion entraremos segun el usuario que introduzcamos (ROL_CLIENTE o ROL_ADMON)
 			String rol =null;
 			
+				//Introducimos en sesion el usuario y la listaCarrito
 				misesion.setAttribute("usuario", usuario);
 				listaSesion.setAttribute("listaCarrito", listaCarrito);
 				
-			
+			//Buscamos el rol que esta autentificado y lo guardamos en nuestra variable rol
 			for (GrantedAuthority ele: aut.getAuthorities()) {
-				System.out.println("ROL : " + ele.getAuthority());
 				
 				rol=ele.getAuthority();
 			}
 				
 			
-			model.addAttribute("mensaje", aut.getAuthorities());
+			//model.addAttribute("mensaje", aut.getAuthorities());
 			
+			
+			//Dependiendo del usuario y su rol, entraremos en una dirección u otra.
 			if (rol.equalsIgnoreCase("ROL_CLIENTE")) {
+				
 				return "redirect:cliente/";	
 				
 			}else if (rol.equalsIgnoreCase("ROL_ADMON")) {
-			
+				
 				return "redirect:admon/";
 				
 			}else {
-				model.addAttribute("listaLibrosNovedades",libDao.listaLibrosNovedades() );
-				return "inicio";
+				//y vamos a index con la lista de libros que son novedad
+				model.addAttribute("listaLibros", libDao.listaLibrosNovedades());
+				return "index";
 			}
 			
-			
+		
 				
 	}
-
-			 
-}		
 		
-		/*@GetMapping("/registro")
+		
+		//Aqui personalizamos nuestra forma de cerrar sesion para volver a la pantalla de inicio de registrar o loguear despues de hacer logout
+		@GetMapping("/salir")
+		
+		public String logout(HttpServletRequest request){
+		SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
+		logoutHandler.logout(request,null,null);
+		return "redirect:/";
+		}
+		
+		
+		//Si pulsamos en registro nos lleva a un formulario para registrarnos
+		@GetMapping("/registro")
 		public String registrar(Model model) {
 			
 			
-			model.addAttribute("mensaje", "registrando");
-			
-			return "pruebas";
+			return "registroUsuario";
 			 
 			
 		}
+		
+		//Mediante el postmapping traemos los datos del usuario que queremos registrar
 		@PostMapping("/registro")
-		public String proregistrar(Model model) {
+		public String proregistrar(Model model, Usuario usuario) {
 			
-			System.out.println("entrando en postmapping");
-			model.addAttribute("mensaje", "registrando");
+			//Ponemos el enabled del usuario a 1
+			usuario.setEnabled(1);
 			
-			return "pruebas";
+			//Ahora vamos a indicar los perfiles que tiene el nuevo usuario, que como es un registro publico solo podrá tener el perfil cliente
+			List<Perfile> listaPerfilesUsuario= new ArrayList<Perfile>();
+			
+			Perfile perfilUsuario=new Perfile();
+			//Le asignamos perfil cliente
+			perfilUsuario.setIdPerfil(2);
+			
+			listaPerfilesUsuario.add(perfilUsuario);
+			
+			//Le introducimos al usuario la lista de perfiles que tiene (solo cliente en esta lista)
+			usuario.setPerfiles(listaPerfilesUsuario);
+			
+			
+			/*La contraseña encriptada, en tiempo de registrar al usuario, se almacena 
+			  también encriptada en la base de datos. */
+			usuario.setPassword(pwenco.encode(usuario.getPassword()));
+			
+			//Añadimos la fecha de alta 
+			usuario.setFechaAlta(new Date());
+			//Añadimos el usuario a la BBDD
+			usuDao.altaUsuario(usuario);
+			
+		
+			
+			return "index";
 			 
 			
-		}*/
-		
-		/*@GetMapping("/error")
-		public String procesarError() {
-			
-			 
-			System.out.println("procesar error");
-			
-			return "pruebas";
-		}*/
-		
-		/*@GetMapping("/index")
-		public String procesarLogin(Authentication aut, Model model, HttpSession misesion) {
-			
-			System.out.println("usuario : " + aut.getName());
-			Usuario usuario = usuDao.findUsuarioByUsername(aut.getName());
-			
-			if (misesion.getAttribute("usuario") == null)
-				misesion.setAttribute("usuario", usuario);
-			
-			System.out.println();
-			
-			for (GrantedAuthority ele: aut.getAuthorities())
-				System.out.println("ROL : " + ele.getAuthority());
-			
-			model.addAttribute("mensaje", aut.getAuthorities());
-			
-			
-			return "redirect:/";
-		}*/
+		}
 		
 		
+		
+		/*Como buscar por tema y por titulo es algo comun en los dos perfiles, los defino aqui en vez de en su controllador correspondiente y 
+		 * añado estas url para que solo sean accesibles por estos dos perfiles en la clase DatSecurity*/
+		@PostMapping("/tema")
+		public String BuscarPorTema(Model model, @RequestParam ("descTema") String descTema) {
+			
+			
+			model.addAttribute("listaLibros", libDao.listaLibrosPorTema(descTema));
+			
+			
+			return "index";
+		}
+		
+		@PostMapping("/buscar")
+		public String BuscarPorTitulo(Model model, @RequestParam ("busqueda") String busqueda) {
+			
+			
+			model.addAttribute("listaLibros", libDao.listaLibrosPorCadena(busqueda));
+			
+			
+			return "index";
+		}
+		
+		
+		
+}		
+
+
 
 	
 

@@ -38,7 +38,7 @@
         
       <sec:authorize access="isAuthenticated()">
         <li class="nav-item" >
-          <a class="nav-link" href="/admon/"><i class="bi bi-box-arrow-right"> Volver</i></a>
+          <a class="nav-link" href="/cliente/"><i class="bi bi-box-arrow-right"> Volver</i></a>
         </li>
         </sec:authorize>
         <sec:authorize access="isAuthenticated()">
@@ -53,14 +53,21 @@
   </div>
 </nav>
 </header>
+
 <div class="cuerpo bg-success p-2 text-white bg-opacity-25">
-<h4>Pedido hecho por el cliente: ${pedido.usuario.username }</h4>
+
+ <h4>DATOS ${usuario.username}</h4>
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">Titulo</th>
-      <th scope="col">Autor</th>
-      <th scope="col">Precio</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Apellido</th>
+       <th scope="col">Username</th>
+        <th scope="col">Email</th>
+         <th scope="col">Direccion</th>
+        
+      
+       
        
       
       
@@ -68,12 +75,17 @@
   </thead>
   
   <tbody>
-  <c:forEach var="ele" items="${pedido.lineasPedidos}">
+  
   <tr>
-      <th scope="row"><i class="bi bi-forward-fill"> ${ele.libro.titulo }</i></th>
-     <td>${ele.libro.autor } </td>
-      <td>${ele.libro.precioUnitario } </td>
+     
+      <td>${usuario.nombre } </td>
+      <td>${usuario.apellido } </td>
+      <td>${usuario.username } </td>
+      <td>${usuario.email } </td>
+      <td>${usuario.direccion } </td>
       
+      
+       
       
       
       
@@ -84,14 +96,13 @@
 	
          
     </tr>
-  </c:forEach>
+ 
   
    
   
    
   </tbody>
 </table>
-
 </div>
 </div>
 </body>

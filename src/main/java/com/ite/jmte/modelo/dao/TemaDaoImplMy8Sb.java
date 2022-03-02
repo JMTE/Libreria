@@ -12,8 +12,10 @@ import com.ite.jmte.modelo.repository.IntTemaRepo;
 public class TemaDaoImplMy8Sb implements IntTemaDao{
 
 	
+	
 	@Autowired
 	private IntTemaRepo temRepo;
+	
 	@Override
 	public List<Tema> findAll() {
 		// TODO Auto-generated method stub

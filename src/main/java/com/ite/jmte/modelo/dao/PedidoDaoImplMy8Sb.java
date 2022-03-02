@@ -15,21 +15,22 @@ public class PedidoDaoImplMy8Sb  implements IntPedidoDao{
 	
 	@Autowired
 	private IntPedidoRepo pedRepo;
+	
 	@Override
 	public List<Pedido> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		// Lista de pedidos completa, no la utilizamos en nuestro ejemplo pero puede ser util en un futuro
+		return pedRepo.findAll();
 	}
 
 	@Override
 	public Pedido findPedidoById(int idPedido) {
-		// TODO Auto-generated method stub
+		// Buscar pedido por id
 		return pedRepo.findById(idPedido).orElse(null);
 	}
 
 	@Override
 	public int altaPedido(Pedido pedido) {
-		// TODO Auto-generated method stub
+		// Alta de pedido en la lista de pedidos
 		int filas=0;
 		
 		try {
@@ -45,9 +46,15 @@ public class PedidoDaoImplMy8Sb  implements IntPedidoDao{
 
 	@Override
 	public List<Pedido> findPedidosByFechaAlta(Date fechaAlta) {
-		// TODO Auto-generated method stub
+		// Lista de pedidos en una fecha en concreto que conseguimos mediante una query en el repository
 		
 		return pedRepo.findPedidosByFechaAlta(fechaAlta);
+	}
+
+	@Override
+	public List<Pedido> findPedidosByUsername(String username) {
+		// TODO Auto-generated method stub
+		return pedRepo.findPedidosbyUsuario(username);
 	}
 
 }

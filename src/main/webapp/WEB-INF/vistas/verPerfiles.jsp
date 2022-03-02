@@ -43,7 +43,7 @@
         </sec:authorize>
         <sec:authorize access="isAuthenticated()">
         <li class="nav-item" >
-          <a class="nav-link" href="/logout"><i class="bi bi-box-arrow-right"> Cerrar Sesión</i></a>
+          <a class="nav-link" href="/salir"><i class="bi bi-box-arrow-right"> Cerrar Sesión</i></a>
         </li>
         </sec:authorize>
         
@@ -53,6 +53,10 @@
   </div>
 </nav>
 </header>
+
+<div class="cuerpo bg-success p-2 text-white bg-opacity-25">
+
+<h4>LISTA DE PERFILES EXISTENTES EN LIBRERIA</h4>
 <table class="table">
   <thead>
     <tr>
@@ -92,6 +96,7 @@
    
   </tbody>
 </table>
+</div>
 </div>
 </body>
 </html>

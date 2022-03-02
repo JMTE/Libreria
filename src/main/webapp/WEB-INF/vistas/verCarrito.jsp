@@ -43,7 +43,7 @@
         </sec:authorize>
         <sec:authorize access="isAuthenticated()">
         <li class="nav-item" >
-          <a class="nav-link" href="/logout"><i class="bi bi-box-arrow-right"> Cerrar Sesión</i></a>
+          <a class="nav-link" href="/salir"><i class="bi bi-box-arrow-right"> Cerrar Sesión</i></a>
         </li>
         </sec:authorize>
         
@@ -53,6 +53,10 @@
   </div>
 </nav>
 </header>
+
+<div class="cuerpo bg-success p-2 text-white bg-opacity-25">
+
+<h4>CARRITO DE LA COMPRA</h4>
 <table class="table">
   <thead>
     <tr>
@@ -81,16 +85,18 @@
          
     </tr>
   </c:forEach>
-   <tr><td></td><td></td><td>Total: ${precioTotal} </td></tr>
+   <tr><td></td><td></td><td>Total: ${precioTotal} <i class="bi bi-currency-euro"></i></td></tr>
    <tr>
-   <td></td>
-   <td> <button><a href="/cliente/comprar">Comprar</a></button></td>
+   
+   <td> <a class= "btn btn-success" href="/cliente/comprar">Comprar <i class="bi bi-cart-check"></i></a></td>
    
    </tr>
   
    
   </tbody>
 </table>
+</div>
+
 </div>
 </body>
 </html>

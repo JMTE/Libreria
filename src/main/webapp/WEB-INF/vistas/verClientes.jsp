@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Pedidos</title>
+<title>LISTA CLIENTES</title>
 <!-- CSS only -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
@@ -19,6 +19,7 @@
 <body>
 
 <div class="container">
+
 
 <header>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -53,14 +54,19 @@
   </div>
 </nav>
 </header>
+
+<br>
 <div class="cuerpo bg-success p-2 text-white bg-opacity-25">
-<h4>Pedido hecho por el cliente: ${pedido.usuario.username }</h4>
+
+<h4>LISTA DE CLIENTES</h4>
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">Titulo</th>
-      <th scope="col">Autor</th>
-      <th scope="col">Precio</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Apellido</th>
+      <th scope="col">Username</th>
+       <th scope="col">Fecha Alta</th>
+       
        
       
       
@@ -68,12 +74,15 @@
   </thead>
   
   <tbody>
-  <c:forEach var="ele" items="${pedido.lineasPedidos}">
+  <c:forEach var="ele" items="${listaClientes}">
   <tr>
-      <th scope="row"><i class="bi bi-forward-fill"> ${ele.libro.titulo }</i></th>
-     <td>${ele.libro.autor } </td>
-      <td>${ele.libro.precioUnitario } </td>
+      <th scope="row"><i class="bi bi-forward-fill"> ${ele.nombre }</i></th>
+     <td>${ele.apellido} </td>
+      <td>${ele.username } </td>
+      <td>${ele.fechaAlta } </td>
+      <td><a class="btn btn-success " href="/admon/verDetalleCliente/${ele.username}">Ver Detalle <i class="bi bi-search"></i></a></td>
       
+       
       
       
       
@@ -91,8 +100,8 @@
    
   </tbody>
 </table>
-
 </div>
+
 </div>
 </body>
 </html>
