@@ -89,7 +89,7 @@
    <tr>
    
    <td> <a class= "btn btn-success" href="/cliente/comprar">Comprar <i class="bi bi-cart-check"></i></a></td>
-   
+   <td><h2>${mensaje }</h2></td>
    </tr>
   
    

@@ -61,7 +61,9 @@
       <th scope="col">Titulo</th>
       <th scope="col">Autor</th>
       <th scope="col">Precio</th>
+      <th scope="col">Tema</th>
       <th scope="col">Numero Pedido</th>
+     
       
       
     </tr>
@@ -73,6 +75,7 @@
       <th scope="row"><i class="bi bi-forward-fill"> ${ele.libro.titulo }</i></th>
      <td>${ele.libro.autor } </td>
       <td>${ele.libro.precioUnitario } </td>
+       <td>${ele.libro.tema.descTema } </td>
       <td>${ele.pedido.idPedido } </td>
       
       

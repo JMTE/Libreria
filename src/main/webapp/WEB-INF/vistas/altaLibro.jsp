@@ -58,21 +58,21 @@
 <form action="/admon/altaLibro" method="post">
   <div class="form-group">
     <label for="exampleInputEmail1">Isbn</label>
-    <input type="number" class="form-control" id="exampleInputEmail1"  placeholder="isbn" name="isbn">
+    <input type="number" required class="form-control" id="exampleInputEmail1"  placeholder="isbn" name="isbn">
    
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">Titulo</label>
-    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Titulo" name="titulo">
+    <input type="text" required class="form-control" id="exampleInputPassword1" placeholder="Titulo" name="titulo">
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">Autor</label>
-    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Autor" name="autor">
+    <input type="text"  required class="form-control" id="exampleInputPassword1" placeholder="Autor" name="autor">
   </div>
   <div class="form-group">
-    <label >Novedad</label>
-    <select  class="form-select" aria-label="Default select example" name="novedad">
-    <option selected>Escoge si el libro es novedad</option>
+    <label >Novedad</label> 
+    <select  class="form-select" aria-label="Default select example" name="novedad" required>
+    <option value="s" selected>Escoge si el libro es novedad (si por defecto)</option>
     <option value="s" >Si</option>
     <option value="n" >No</option>
     
@@ -80,18 +80,18 @@
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">Paginas</label>
-    <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Paginas" name="paginas">
+    <input  required type="number" class="form-control" id="exampleInputPassword1" placeholder="Paginas" name="paginas">
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">Precio Unitario</label>
-    <input type="number"  step="0.01" min="1" class="form-control" id="exampleInputPassword1" placeholder="Precio Unitario" name="precioUnitario">
+    <input required type="number"  step="0.01" min="1" class="form-control" id="exampleInputPassword1" placeholder="Precio Unitario" name="precioUnitario">
   </div>
   
   
   <div class="form-group">
     <label >Tema</label>
-    <select  class="form-select" aria-label="Default select example"  name="idTema">
-    <option selected>Escoge el tema del libro</option>
+    <select  class="form-select" aria-label="Default select example"  name="idTema" required>
+    <option value="1" selected>Escoge el tema del libro (Literatura por defecto)</option>
     <c:forEach var="ele" items="${listaTemas }">
     <option value="${ele.idTema }" >${ele.descTema }</option>
     </c:forEach>

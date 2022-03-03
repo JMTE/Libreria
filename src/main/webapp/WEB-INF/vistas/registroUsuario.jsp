@@ -53,28 +53,28 @@
 <form action="/registro" method="post">
   <div class="form-group">
     <label for="exampleInputEmail1">Username</label>
-    <input type="text" class="form-control" id="exampleInputEmail1"  placeholder="Username" name="username">
+    <input type="text" class="form-control" required  placeholder="Username" name="username">
    
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="password" name="password">
+    <input type="password" class="form-control" required placeholder="password" name="password">
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">Email</label>
-    <input type="email" class="form-control" id="exampleInputPassword1" placeholder="email" name="email">
+    <input type="email" class="form-control" required placeholder="email" name="email">
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">Nombre</label>
-    <input type="text"  class="form-control" id="exampleInputPassword1" placeholder="Nombre" name="nombre">
+    <input type="text"  class="form-control" required placeholder="Nombre" name="nombre">
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">Apellidos</label>
-    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Apellidos" name="apellido">
+    <input type="text" class="form-control" required placeholder="Apellidos" name="apellido">
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">Direccion</label>
-    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Direccion" name="direccion">
+    <input type="text" class="form-control" required placeholder="Direccion" name="direccion">
   </div>
   
   

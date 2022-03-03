@@ -152,6 +152,12 @@ public class ClienteController {
 		Usuario usuario=(Usuario) misesion.getAttribute("usuario");
 		List<Libro> lista=(List<Libro>) listaSesion.getAttribute("listaCarrito");
 		
+		if (lista.isEmpty()) {
+			model.addAttribute("mensaje", "El carrito esta vacio");
+			return "verCarrito";
+		}else {
+			
+		
 		//Creamos un nuevo pedido
 		Pedido pedido=new Pedido();
 		//Establecemos la fecha del pedido
@@ -195,6 +201,7 @@ public class ClienteController {
 		//Volvemos a la pagina principal
 		model.addAttribute("listaLibros", libDao.listaLibrosNovedades());
 		return "index";
+		}
 	}
 	
 	

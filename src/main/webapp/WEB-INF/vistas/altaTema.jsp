@@ -60,12 +60,12 @@
 <form action="/admon/altaTema" method="post">
   <div class="form-group">
     <label for="exampleInputEmail1">Descripcion Tema</label>
-    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Descripcion del tema" name="descTema">
+    <input type="text" class="form-control" required aria-describedby="emailHelp" placeholder="Descripcion del tema" name="descTema">
    
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">Abreviatura</label>
-    <input type="text" class="form-control"  placeholder="Abreviatura Tema" name="abreviatura">
+    <input type="text" class="form-control" required placeholder="Abreviatura Tema" name="abreviatura">
   </div>
   
   <br>

@@ -98,7 +98,7 @@
 <a class="btn btn-success " href="/admon/altaTema"><i class="bi bi-journal-plus"> Nuevo Tema</i></a>
 <br><br>
  <form class="d-flex" action="/admon/verPedidos" method="post">
-      <input class="form-control" type="date"   name="fechaAlta">
+      <input class="form-control" type="date"  required name="fechaAlta">
       <button class="btn btn-outline-success" type="submit">Ver Pedidos</button>
  </form>
 </sec:authorize>
