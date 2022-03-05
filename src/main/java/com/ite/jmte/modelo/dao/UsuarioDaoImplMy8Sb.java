@@ -33,13 +33,20 @@ public class UsuarioDaoImplMy8Sb implements IntUsuarioDao{
 		
 		int filas=0;
 		
-		try {
-			usuRepo.save(usuario);
-			filas=1;
-		}catch(Exception e) {
-			e.printStackTrace();
+		if (usuRepo.findAll().contains(usuario)) {
+			filas=0;
+			return filas;
+		}else {
+			try {
+				usuRepo.save(usuario);
+				filas=1;
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			return filas;
 		}
-		return filas;
+		
+		
 	}
 
 	@Override

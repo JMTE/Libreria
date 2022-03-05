@@ -20,7 +20,7 @@
 <header>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand  " href="#"><i class="bi bi-shop"> Libreria</i></a>
+    <a class="navbar-brand  " href="/index"><i class="bi bi-shop"> Libreria</i></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -63,7 +63,7 @@
         </sec:authorize>
          <sec:authorize access="hasAuthority('ROL_CLIENTE')">
         <li class="nav-item" >
-          <a class="nav-link" href="/cliente/verCarrito"><i class="bi bi-cart"> Ver Carrito </i></a>
+          <a class="nav-link" href="/cliente/verCarrito"><i class="bi bi-cart"> Ver Carrito( ${numeroCarrito } ) </i></a>
         </li>
         </sec:authorize>
         <sec:authorize access="!isAuthenticated()">
@@ -104,7 +104,7 @@
 </sec:authorize>
 
 <br>
-
+<h3>LISTA DE LIBROS QUE SON NOVEDADES</h3>
 <table class="table">
   <thead>
     <tr>
@@ -153,6 +153,7 @@
 </table>
 
 </div>
+<a  class="btn btn-success " href="/index">${volver }</a>
 </div>
 </sec:authorize>
 </div>

@@ -65,7 +65,7 @@ public class LibroDaoImplMy8Sb implements IntLibroDao {
 		//Comprobamos si ese libro ya lo contiene la lista, si lo contiene salimos sin añadirlo, si no lo contiene, lo añadimos al carrito
 		if (lista.contains(libro)) {
 			
-			return lista != null?1:0;
+			return lista != null?0:1;
 			
 		}else {
 			lista.add(libro);
@@ -94,15 +94,19 @@ public class LibroDaoImplMy8Sb implements IntLibroDao {
 	public int altaLibro(Libro libro) {
 		// Aqui añadimos un libro nuevo a la lista de libros
 				int filas=0;
-				
-				try {
-					libRepo.save(libro);
-					filas=1;
-				}catch(Exception e) {
-					e.printStackTrace();
+				if (libRepo.findAll().contains(libro)) {
+					return filas;
+				}else {
+					try {
+						libRepo.save(libro);
+						filas=1;
+					}catch(Exception e) {
+						e.printStackTrace();
+					}
+					
+					return filas;
 				}
 				
-				return filas;
 	}
 
 	

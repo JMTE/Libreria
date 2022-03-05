@@ -35,11 +35,16 @@ public class HomeController {
 		@Autowired
 		IntUsuarioDao usuDao;
 		
-		
 		//Creamos un objeto de PasswordEncoder definido en la clase de DatSecurity para encriptar las contraseñas cuando registramos un usuario
 		@Autowired
 		private PasswordEncoder pwenco;
 		
+		//Creamos una listaCarrito que la introduciremos en sesion.
+		List<Libro>listaCarrito=new ArrayList<Libro>();
+		
+		//Creamos una lista para el numero que va a aparecer al lado del ver Carrito en el index
+		List<String>numeroCarrito=new ArrayList<String>();
+	
 		
 		//Esto lo utilizamos para encriptar las contraseñas que teniamos sin encriptar en la BBDD
 		@GetMapping("/pwd")
@@ -56,20 +61,18 @@ public class HomeController {
 		@GetMapping("/index")
 		
 		
-		public String listaLibrosNovedades(Authentication aut, Model model, HttpSession misesion, HttpSession listaSesion) {
+		public String listaLibrosNovedades(Authentication aut, Model model, HttpSession misesion, HttpSession listaSesion, HttpSession sesionNumeroCarrito) {
 			
 			//Introducimos el usuario autentificado en un objeto de la clase usuario que lo buscamos con nuestro metodo de buscar usuario por username
 			Usuario usuario = usuDao.findUsuarioByUsername(aut.getName());
 			
-			//Creamos una listaCarrito que la introduciremos en sesion.
-			List<Libro>listaCarrito=new ArrayList<Libro>();
-			
 			//Creamos un string rol para definir en que direccion entraremos segun el usuario que introduzcamos (ROL_CLIENTE o ROL_ADMON)
 			String rol =null;
 			
-				//Introducimos en sesion el usuario y la listaCarrito
+				//Introducimos en sesion el usuario , la listaCarrito y  la lista que utilizamos para representar el numero al lado de ver Carrito.
 				misesion.setAttribute("usuario", usuario);
 				listaSesion.setAttribute("listaCarrito", listaCarrito);
+				sesionNumeroCarrito.setAttribute("numeroCarrito", numeroCarrito);
 				
 			//Buscamos el rol que esta autentificado y lo guardamos en nuestra variable rol
 			for (GrantedAuthority ele: aut.getAuthorities()) {
@@ -107,6 +110,9 @@ public class HomeController {
 		public String logout(HttpServletRequest request){
 		SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
 		logoutHandler.logout(request,null,null);
+		//Borramos los items de la lista que contiene los libros del carrito y la lista que tenemos para representar el numero al lado del ver Carrito
+		listaCarrito.clear();
+		numeroCarrito.clear();
 		return "redirect:/";
 		}
 		
@@ -145,14 +151,25 @@ public class HomeController {
 			  también encriptada en la base de datos. */
 			usuario.setPassword(pwenco.encode(usuario.getPassword()));
 			
+			
 			//Añadimos la fecha de alta 
 			usuario.setFechaAlta(new Date());
-			//Añadimos el usuario a la BBDD
-			usuDao.altaUsuario(usuario);
 			
-		
 			
-			return "index";
+			if(usuDao.altaUsuario(usuario)==0) {
+				model.addAttribute("mensaje", "Este username ya existe");
+				return "registroUsuario";
+			}else {
+				//Añadimos el usuario a la BBDD
+				usuDao.altaUsuario(usuario);
+				
+			
+				
+				return "index";
+			}
+			
+			
+			
 			 
 			
 		}
@@ -164,10 +181,10 @@ public class HomeController {
 		@PostMapping("/tema")
 		public String BuscarPorTema(Model model, @RequestParam ("descTema") String descTema) {
 			
-			
+		
 			model.addAttribute("listaLibros", libDao.listaLibrosPorTema(descTema));
-			
-			
+			model.addAttribute("volver", "Volver a inicio");
+			model.addAttribute("numeroCarrito", numeroCarrito.size());
 			return "index";
 		}
 		
@@ -176,8 +193,8 @@ public class HomeController {
 			
 			
 			model.addAttribute("listaLibros", libDao.listaLibrosPorCadena(busqueda));
-			
-			
+			model.addAttribute("volver", "Volver a inicio");
+			model.addAttribute("numeroCarrito", numeroCarrito.size());
 			return "index";
 		}
 		

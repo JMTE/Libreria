@@ -47,13 +47,20 @@ public class ClienteController {
 	@Autowired
 	private HttpSession listaSesion;
 	
+	@Autowired
+	private HttpSession sesionNumeroCarrito;
+	
+	
 	@GetMapping("/")
 	public String inicio (Model model) {
 		
 		//Recuperamos el usuario que tenemos en la sesion
 		Usuario usuario=(Usuario) misesion.getAttribute("usuario");
+		//Recuperamos la lista que nos va a dar el numero que tiene el Ver Carrito a su lado
+		List<String> numeroCarrito=(List<String>) sesionNumeroCarrito.getAttribute("numeroCarrito");
 		
-		//Presentamos la lista libros que son novedad
+		//Presentamos la lista libros que son novedad y el numero de items que tiene el ver Carrito a su lado
+		model.addAttribute("numeroCarrito", numeroCarrito.size());
 		model.addAttribute("listaLibros", libDao.listaLibrosNovedades());
 		return "index";
 	}
@@ -80,16 +87,29 @@ public class ClienteController {
 	
 	public String altaCarrito (Model model, @PathVariable long isbn) {
 		
-		//Rescatamos la lista que tenemos en sesion 
+		//Rescatamos las listas que tenemos en sesion 
 		List<Libro> lista=(List<Libro>) listaSesion.getAttribute("listaCarrito");
+		List<String> numeroCarrito=(List<String>) sesionNumeroCarrito.getAttribute("numeroCarrito");
+		
+		//Si el libro existe en el carrito, no sumamos un numero al numero al lado del ver Carrito
+		if(libDao.addLibroCarrito(libDao.findLibroById(isbn), lista)==0) {
+			model.addAttribute("numeroCarrito", numeroCarrito.size());
+			model.addAttribute("listaLibros", libDao.listaLibrosNovedades());
+			return "index";
+		}else {
+			//sumamos un numero al lado del ver Carrito
+			numeroCarrito.add("Otro libro al carrito");
+			//Añadimos el libro al carrito pasando el libro y la lista a nuestro metodo creado, 
+			//la lista la pasamos para comprobar si ya existe el libro en el carrito
+			
+			libDao.addLibroCarrito(libDao.findLibroById(isbn), lista);
+			//Presentamos los datos necesarios en el index
+			model.addAttribute("numeroCarrito", numeroCarrito.size());
+			model.addAttribute("listaLibros", libDao.listaLibrosNovedades());
+			return "index";
+		}
 		
 		
-		//Añadimos el libro al carrito pasando el libro y la lista a nuestro metodo creado, 
-		//la lista la pasamos para comprobar si ya existe el libro en el carrito
-		libDao.addLibroCarrito(libDao.findLibroById(isbn), lista);
-		
-		model.addAttribute("listaLibros", libDao.listaLibrosNovedades());
-		return "index";
 		
 	}
 	
@@ -123,6 +143,10 @@ public class ClienteController {
 		
 		//Recuperamos la lista de libros que tenemos en sesion para el carrito
 		List<Libro> lista=(List<Libro>) listaSesion.getAttribute("listaCarrito");
+		List<String> numeroCarrito=(List<String>) sesionNumeroCarrito.getAttribute("numeroCarrito");
+		
+		//Quitamos una unidad del numero al lado del carrito
+		numeroCarrito.remove(0);
 		
 		//borramos el libro de la lista
 		lista.remove(libDao.findLibroById(isbn));
@@ -151,6 +175,7 @@ public class ClienteController {
 		//Recuperamos el usuario y la lista de libros del carrito de sesion
 		Usuario usuario=(Usuario) misesion.getAttribute("usuario");
 		List<Libro> lista=(List<Libro>) listaSesion.getAttribute("listaCarrito");
+		List<String> numeroCarrito=(List<String>) sesionNumeroCarrito.getAttribute("numeroCarrito");
 		
 		if (lista.isEmpty()) {
 			model.addAttribute("mensaje", "El carrito esta vacio");
@@ -198,7 +223,10 @@ public class ClienteController {
 		//Limpiamos la lista de libros de nuestro carrito
 		lista.clear();
 		
+		numeroCarrito.clear();
+		
 		//Volvemos a la pagina principal
+		model.addAttribute("numeroCarrito", numeroCarrito.size());
 		model.addAttribute("listaLibros", libDao.listaLibrosNovedades());
 		return "index";
 		}

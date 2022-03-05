@@ -79,6 +79,7 @@ public class AdministradorController {
 	@PostMapping("/altaTema")
 	public String altaTema(Model model, Tema tema) {
 		
+		
 		//mediante nuestro metodo implementado en el dao, damos de alta el tema
 		libDao.altaTema(tema);
 		
@@ -100,14 +101,24 @@ public class AdministradorController {
 	@PostMapping("/altaLibro")
 	public String altaLibro(Model model, Libro libro,@RequestParam int idTema) {
 		
+		
 		//Le establecemos el tema al libro
 		libro.setTema(temDao.findTemaById(idTema));
-		//Damos de alta el libro con el metodo que hemos creado en el dao
-		libDao.altaLibro(libro);
 		
-		model.addAttribute("listaLibros", libDao.listaLibrosNovedades());
+		//Comprobamos al dar de alta el libro que su isbn unico no existe, si existe sacamos un mensaje y volvemos al formulario de alta
+		if (libDao.altaLibro(libro)==0) {
+			model.addAttribute("listaTemas", temDao.findAll());
+			model.addAttribute("mensaje", "Ese isbn del libro ya existe, es un valor único");
+			return "altaLibro";
+		}else {
+			//Damos de alta el libro con el metodo que hemos creado en el dao
+			libDao.altaLibro(libro);
+			
+			model.addAttribute("listaLibros", libDao.listaLibrosNovedades());
+			
+			return "index";
+		}
 		
-		return "index";
 	}
 	
 

@@ -103,6 +103,7 @@
   
   <br>
   
+  <h2>${mensaje }</h2>
   <button type="submit" class="btn btn-success">Alta libro</button>
 </form>
 </div>
